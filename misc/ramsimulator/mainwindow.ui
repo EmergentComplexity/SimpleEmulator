@@ -79,7 +79,7 @@
      <string>Data in (D)</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="DatainFIeld">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -89,7 +89,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="SetDButton">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -115,7 +115,7 @@
      <string>Address (A)</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="AddressField">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -125,7 +125,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="SetAButton">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -151,7 +151,7 @@
      <string>Data Out (S)</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QLineEdit" name="DataOutField">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -161,7 +161,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="WECheckbox">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -174,7 +174,7 @@
      <string>WE</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_2">
+   <widget class="QCheckBox" name="MECheckbox">
     <property name="geometry">
      <rect>
       <x>40</x>

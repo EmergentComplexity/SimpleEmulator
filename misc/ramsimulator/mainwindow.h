@@ -17,5 +17,19 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    int S;
+    int A;
+    int D;
+    bool ME;
+    bool WE;
+    int data[16];
+    void RamOperations();
+
+
+private slots: // executed when signal is submitted
+    void SetAButtonPressed();
+    void SetDButtonPressed();
+    void MECheckboxClicked();
+    void WECheckboxClicked();
 };
 #endif // MAINWINDOW_H
