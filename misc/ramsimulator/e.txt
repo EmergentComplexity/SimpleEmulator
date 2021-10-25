@@ -1,1 +1,3 @@
-e
+74189N RAM SIMULATOR
+
+-> this is a qt GUI program to simulate the 74189N tri-state ram
