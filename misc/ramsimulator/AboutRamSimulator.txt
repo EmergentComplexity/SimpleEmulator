@@ -1,3 +1,4 @@
 74189N RAM SIMULATOR
 
 -> this is a qt GUI program to simulate the 74189N tri-state ram
+Yideo of the 74198N RAM: https://www.youtube.com/watch?v=6w8gCISbwy4
