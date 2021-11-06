@@ -76,7 +76,7 @@
    <widget class="QLineEdit" name="INPUTREG">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>390</x>
       <y>160</y>
       <width>113</width>
       <height>22</height>
@@ -86,7 +86,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>390</x>
       <y>130</y>
       <width>131</width>
       <height>16</height>
@@ -99,7 +99,7 @@
    <widget class="QLineEdit" name="OUTPUTREG">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>390</x>
       <y>240</y>
       <width>113</width>
       <height>22</height>
@@ -109,7 +109,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>390</x>
       <y>210</y>
       <width>131</width>
       <height>20</height>
@@ -119,6 +119,26 @@
      <string>OUTPUT REGISTER</string>
     </property>
    </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>331</width>
+      <height>501</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="testbox">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>360</y>
+      <width>321</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -126,11 +146,23 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

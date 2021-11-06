@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -108,3 +107,81 @@ void MainWindow::InstructionDecoder() {
                  }
            }
 }
+
+
+
+
+
+// Assembly code example:
+
+/*
+       This program will add 2 numbers and output the sum in an infinite loop
+   PC ROM Value  ASM
+
+   0  0b10000000 INP 0000   ; Input a value, 0000 because INP doesnt need an operand
+   1  0b00110001 STO 0001   ; Store the value inputed to address 1
+   2  0b10000000 INP 0000   ; Input another value
+   3  0b00010001 ADD 0001   ; sum of 2 inputed values, the first value entered is in address 1 and the second is still in the accumulator
+   4  0b10010000 OUT 0000   ; output the sum, the accumulator is written to the output register, 0000 because OUT doesnt need an operand
+   5  0b01010000 B   0000   ; unconditional branch to set program counter to ROM address 0 to create infinite loop
+   */
+// The 4 most significant bits represent the MNEUMONIC EX: INP, STO, ADD, etc..
+//  - this tells what instruction to do
+// THe 4 least significant bits represent the DATA EX: 0000, 0001, etc..
+//  - this gives data, it could be an address, constant, or unused depending on the instruction
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString filename = QFileDialog::getOpenFileName(this, "Open the file");                            //This portion of the code opens and reads the code from assembly
+        QFile file(filename);                                                                          //From the previous code, it will read individual lines to
+        currentFile = filename;                                                                        //get the function, this is the first part of the test to see
+        if(!file.open(QIODevice::ReadOnly | QFile::Text)){                                             //if we can get the lines, tested good
+            QMessageBox::warning(this, "Warning", "Cannot open file : " + file.errorString());
+        }
+        setWindowTitle(filename);
+        QTextStream in(&file);
+        int i = 0;
+
+
+        while(!in.atEnd())
+        {
+            QString line = in.readLine();
+
+            if(line.isEmpty() == false) { // ignore blank lines
+
+
+                // here we are going to interpret the file and write appropriate data to rom
+
+                QStringList list = line.split(" ");
+                mnemonics[i] = list.at(0); // this is a QString array with all of the mneumonics for the instructions
+                //
+
+
+                /* TODO:
+                     - make a switch case to interpret the mueumonics as the 4 most significant bits
+                     -- iterate through all mneumonics in array --
+
+                     case mneunonics[x] == "INP":
+                        ROM[x] = 0b10000000
+                        break;
+                     ROM[x] = ROM[x] | QString::number(list.at(1)); // list.at(1) gets the second word
+                */
+              i++;
+            }
+
+
+            // test code to print out the name of the mneumonic of every instruction
+            QString printstr;
+            for(int x=0; x < i; x++) {
+               printstr = printstr  + mnemonics[x]+ "\n";
+            }
+            ui->testbox->setText(printstr);
+
+
+        }
+        file.seek(0);
+        QString text = in.readAll();
+        ui->textEdit->setText((text));
+
+}
+

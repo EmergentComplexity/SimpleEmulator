@@ -1,6 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QFile>        //lets us open files
+#include <QFileDialog>
+#include <QTextStream>
+#include <QMessageBox>
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -26,8 +31,12 @@ private:
     int Ram [16];
     int data = 0;
     void InstructionDecoder();
+    QString mnemonics [16]; //assumes max program length of 16 instructions, contains the mneumonic
+
+    QString currentFile = "";   //lets us open files
 private slots: // executed when signal is submitted
     void CLOCKButtonPressed();
 
+    void on_actionOpen_triggered();
 };
 #endif // MAINWINDOW_H
