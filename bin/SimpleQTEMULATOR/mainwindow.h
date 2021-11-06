@@ -27,11 +27,14 @@ private:
     int input = 0;  // Input Register
     int opcode;
     int accumulator = 0;
-    int ROM [16] = {0b10000000, 0b00110001, 0b10000000, 0b00010001,0b10010000,0b01010000,0,0,0,0,0,0,0,0,0,0};
+    int ROM [16];
     int Ram [16];
     int data = 0;
+    bool ROMLoaded = false; // becomes true after a file is opened and the data is entered into the ROM array
     void InstructionDecoder();
+    void InstructionEncoder( QString mnemonic, QString data, int *ROM);
     QString mnemonics [16]; //assumes max program length of 16 instructions, contains the mneumonic
+
 
     QString currentFile = "";   //lets us open files
 private slots: // executed when signal is submitted
