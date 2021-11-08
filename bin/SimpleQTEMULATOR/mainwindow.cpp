@@ -21,9 +21,11 @@ void MainWindow::CLOCKButtonPressed() {
         currentCount++;
         if (currentCount > 15) {
             currentCount = 0;
+            ROMLoaded = false;
         }
         else if( currentCount > -1) { // -1 is used to initialize, but there is no -1 index of the ROM array
-            ui->currentInstructionBox->setText( QString::number(currentCount));
+            //ui->currentInstructionBox->setText( QString::number(currentCount));
+            ui->currentInstructionBox->setText( QString::number(Ram[7]));
             InstructionDecoder();
         }
 
@@ -38,6 +40,7 @@ void MainWindow::InstructionDecoder() {
     switch(opcode) {
         case 0b0000: { // HLT: This effectively stops the clock
             ui->currentInstructionName->setText( "HLT");
+            ROMLoaded = false;
             break;
         }
 
@@ -79,9 +82,9 @@ void MainWindow::InstructionDecoder() {
             break;
         }
 
-        case 0b0111: { // This instruction is free
-            ui->currentInstructionName->setText( "FREE");
-
+        case 0b0111: { // LDV: this is the command used to load a constant
+            accumulator = data;
+            ui->currentInstructionName->setText( "LDV");
             break;
         }
 
@@ -160,6 +163,7 @@ void MainWindow::InstructionDecoder() {
 
 void MainWindow::on_actionOpen_triggered()
 {
+      //Ram [16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; // clear the ram
     QString filename = QFileDialog::getOpenFileName(this, "Open the file");                            //This portion of the code opens and reads the code from assembly
         QFile file(filename);                                                                          //From the previous code, it will read individual lines to
         currentFile = filename;                                                                        //get the function, this is the first part of the test to see
@@ -186,17 +190,7 @@ void MainWindow::on_actionOpen_triggered()
                 InstructionEncoder(mnemonics[i], list.at(1), &ROM[i]);
                 ROMLoaded = true; // now we can run the program because the rom has been loaded
                 currentCount = -1; // reset to do the first instruction
-            //   /////////////////////////////////////////
 
-                /* TODO:
-                     - make a switch case to interpret the mueumonics as the 4 most significant bits
-                     -- iterate through all mneumonics in array --
-
-                     case mneunonics[x] == "INP":
-                        ROM[x] = 0b10000000
-                        break;
-                     ROM[x] = ROM[x] | QString::number(list.at(1)); // list.at(1) gets the second word
-                */
                 i++; // keep track of the lines with code on them
             }
 
@@ -205,6 +199,7 @@ void MainWindow::on_actionOpen_triggered()
             QString printstr;
             for (int x=0; x < i; x++) {
                printstr = printstr  + mnemonics[x] + " " + QString("%1").arg(ROM[x], 8, 2, QChar('0')) +  "\n";
+               // printstr = printstr  + mnemonics[x] + " " + QString::number(ROM[x]) +  "\n";
             }
             ui->testbox->setText(printstr);
 
@@ -239,11 +234,11 @@ void MainWindow::InstructionEncoder(QString mnemonic, QString data, int* ROM) {
     else if (mnemonic == "BZ") {
         *ROM = 0b01100000;
     }
-    /*
-    else if (mnemonic == "XXXX") {
+
+    else if (mnemonic == "LDV") {
         *ROM = 0b01110000;
     }
-    */
+
     else if (mnemonic == "INP") {
         *ROM = 0b10000000;
     }
@@ -272,5 +267,9 @@ void MainWindow::InstructionEncoder(QString mnemonic, QString data, int* ROM) {
         *ROM = 0b11110000;
     }
     */
-    *ROM = *ROM | data.toInt();
+    bool fOK;
+    int dataINT = data.toInt(&fOK,2);
+    // make sure only the first 4 bits are read
+
+    *ROM =   *ROM | dataINT;
 }

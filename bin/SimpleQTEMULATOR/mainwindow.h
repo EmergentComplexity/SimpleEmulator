@@ -28,7 +28,7 @@ private:
     int opcode;
     int accumulator = 0;
     int ROM [16];
-    int Ram [16];
+    int Ram [16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     int data = 0;
     bool ROMLoaded = false; // becomes true after a file is opened and the data is entered into the ROM array
     void InstructionDecoder();
