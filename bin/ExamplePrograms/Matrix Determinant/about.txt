@@ -1,0 +1,8 @@
+This program finds the determinant of a 2*2 matrix, the program runs over multiple files
+ORDER OF RUNNUNG
+-Input Values
+- Get AD
+- Get BC
+- SubandOUT
+
+* Note that GetAD and GetBC do not depend on each other 
