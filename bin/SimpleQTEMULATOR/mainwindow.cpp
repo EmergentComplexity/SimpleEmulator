@@ -20,12 +20,17 @@ void MainWindow::CLOCKButtonPressed() {
 
         currentCount++;
         if (currentCount > 15) {
-            currentCount = 0;
-            ROMLoaded = false;
+            currentCount = -1;
+            if (current->next != NULL) {
+                current = current->next;
+            }
+            else {
+                 ROMLoaded = false;
+            }
         }
         else if( currentCount > -1) { // -1 is used to initialize, but there is no -1 index of the ROM array
-            //ui->currentInstructionBox->setText( QString::number(currentCount));
-            ui->currentInstructionBox->setText( QString::number(Ram[7]));
+            ui->currentInstructionBox->setText( QString::number(currentCount));
+            //ui->currentInstructionBox->setText( QString::number(Ram[7]));
             InstructionDecoder();
         }
 
@@ -35,12 +40,21 @@ void MainWindow::CLOCKButtonPressed() {
 
 }
 void MainWindow::InstructionDecoder() {
-    opcode = ROM[currentCount] >> 4;
-    data = ROM[currentCount] & 0b00001111;
+
+    if (current != NULL) {
+    opcode = current->Values[currentCount] >> 4;
+    data = current->Values[currentCount] & 0b00001111;
     switch(opcode) {
         case 0b0000: { // HLT: This effectively stops the clock
             ui->currentInstructionName->setText( "HLT");
-            ROMLoaded = false;
+            if (current->next != NULL) {
+                currentCount = -1;
+                current = current->next;
+            }
+            else {
+                 ROMLoaded = false;
+            }
+
             break;
         }
 
@@ -137,6 +151,7 @@ void MainWindow::InstructionDecoder() {
             break;
         }
     }
+    }
 }
 
 
@@ -173,7 +188,7 @@ void MainWindow::on_actionOpen_triggered()
         setWindowTitle(filename);
         QTextStream in(&file);
         int i = 0;
-
+        int j = 0;
 
         while(!in.atEnd())
         {
@@ -185,13 +200,28 @@ void MainWindow::on_actionOpen_triggered()
                 // here we are going to interpret the file and write appropriate data to rom
 
                 QStringList list = line.split(" ");
-                mnemonics[i] = list.at(0); // this is a QString array with all of the mneumonics for the instructions
+                mnemonics[j] = list.at(0); // this is a QString array with all of the mneumonics for the instructions
                 //
-                InstructionEncoder(mnemonics[i], list.at(1), &ROM[i]);
+                InstructionEncoder(mnemonics[j], list.at(1), &ROM[j]);
                 ROMLoaded = true; // now we can run the program because the rom has been loaded
                 currentCount = -1; // reset to do the first instruction
 
-                i++; // keep track of the lines with code on them
+                //i++; // keep track of the lines with code on them
+
+
+                if ((mnemonics[j] == "HLT")) {
+                    i = j;
+                    j = 0;
+                    AppendROM( &head, ROM);
+
+                    // now clear rom array
+                    for(int i = 0; i < 16; i++) {
+                        ROM[i] = 0;
+                    }
+                }
+                else {
+                    j++;
+                }
             }
 
 
@@ -201,10 +231,26 @@ void MainWindow::on_actionOpen_triggered()
                printstr = printstr  + mnemonics[x] + " " + QString("%1").arg(ROM[x], 8, 2, QChar('0')) +  "\n";
                // printstr = printstr  + mnemonics[x] + " " + QString::number(ROM[x]) +  "\n";
             }
-            ui->testbox->setText(printstr);
+            ui->testbox->setText( mnemonics[j - 1] + " " + QString::number(j));
 
 
+
+       }
+
+
+
+        // if there was no HLT in the program file, still add the file to the list
+        if ((mnemonics[j-1] != "HLT")) {
+            //i = j;
+            //j = 0;
+            AppendROM( &head, ROM);
+
+            // now clear rom array
+            for(int i = 0; i < 16; i++) {
+                ROM[i] = 0;
+            }
         }
+        current = head;
         file.seek(0);
         QString text = in.readAll();
         ui->textEdit->setText((text));
@@ -273,3 +319,25 @@ void MainWindow::InstructionEncoder(QString mnemonic, QString data, int* ROM) {
 
     *ROM =   *ROM | dataINT;
 }
+
+void MainWindow::AppendROM( ROMS ** NodeHead, int ROM[16]) {
+    ROMS* new_rom = new ROMS();
+    ROMS* last = *NodeHead;
+    for(int i = 0; i < 16; i++) {
+        new_rom->Values[i] = ROM[i];
+    }
+    new_rom->next = NULL;
+    if (*NodeHead == NULL) {
+        *NodeHead = new_rom;
+        return;
+    }
+
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = new_rom;
+    return;
+}
+
+
+

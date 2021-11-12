@@ -28,10 +28,21 @@ private:
     int opcode;
     int accumulator = 0;
     int ROM [16];
+
+    class ROMS {
+    public:
+        int Values [16];
+        ROMS *next;
+    };
+
+
+    ROMS *head = NULL;
+    ROMS *current = NULL;
     int Ram [16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     int data = 0;
     bool ROMLoaded = false; // becomes true after a file is opened and the data is entered into the ROM array
     void InstructionDecoder();
+    void AppendROM( ROMS ** NodeHead, int ROM[16]);
     void InstructionEncoder( QString mnemonic, QString data, int *ROM);
     QString mnemonics [16]; //assumes max program length of 16 instructions, contains the mneumonic
 
@@ -43,3 +54,6 @@ private slots: // executed when signal is submitted
     void on_actionOpen_triggered();
 };
 #endif // MAINWINDOW_H
+
+
+
