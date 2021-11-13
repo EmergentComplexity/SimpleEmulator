@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QTimer>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -7,6 +8,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->clockbutton, SIGNAL(clicked()), this, SLOT(CLOCKButtonPressed()));
     ui->currentInstructionBox->setText( QString::number(currentCount));
+
+    connect(timer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::AutoClock));
+    connect(ui->ClockStart, SIGNAL(clicked()), this, SLOT(ClockStart()));
+    connect(ui->ClockStop, SIGNAL(clicked()), this, SLOT(ClockStop()));
+    //timer->start(1000);
     InstructionDecoder();
 }
 
@@ -14,7 +20,38 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::ClockStart() {
+    int freq = (1.00/ui->ClockEdit->text().toFloat() ) * (float)1000;
+    ui->currentInstructionBox->setText( QString::number(freq));
+    timer->start(freq);
 
+}
+void MainWindow::ClockStop() {
+    timer->stop();
+}
+void MainWindow::AutoClock() {
+    if(ROMLoaded == true) { // you can only run the code after the ROM is Loaded
+
+        currentCount++;
+        if (currentCount > 15) {
+            currentCount = -1;
+            if (current->next != NULL) {
+                current = current->next;
+            }
+            else {
+                 ROMLoaded = false;
+            }
+        }
+        else if( currentCount > -1) { // -1 is used to initialize, but there is no -1 index of the ROM array
+            //ui->currentInstructionBox->setText( QString::number(currentCount));
+            //ui->currentInstructionBox->setText( QString::number(Ram[7]));
+            InstructionDecoder();
+        }
+
+    }
+    // TODO: add label that says to open a file if there is no rom loaded
+
+}
 void MainWindow::CLOCKButtonPressed() {
     if(ROMLoaded == true) { // you can only run the code after the ROM is Loaded
 

@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QTimer>
 
 #include <QMainWindow>
 
@@ -28,6 +29,7 @@ private:
     int opcode;
     int accumulator = 0;
     int ROM [16];
+    QTimer *timer = new QTimer(this);
 
     class ROMS {
     public:
@@ -50,7 +52,9 @@ private:
     QString currentFile = "";   //lets us open files
 private slots: // executed when signal is submitted
     void CLOCKButtonPressed();
-
+    void AutoClock();
+    void ClockStart();
+    void ClockStop();
     void on_actionOpen_triggered();
 };
 #endif // MAINWINDOW_H
