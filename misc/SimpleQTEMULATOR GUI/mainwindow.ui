@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1294</width>
+    <height>636</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Emulator</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1311</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="page">
+     <widget class="QLabel" name="Title">
+      <property name="geometry">
+       <rect>
+        <x>188</x>
+        <y>200</y>
+        <width>930</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Impact</family>
+        <pointsize>29</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>COMPUTER ARCHITECTURE SIMULATOR</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::PlainText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_8bit">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>360</y>
+        <width>231</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>8-BIT Simulation</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_4bit">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>360</y>
+        <width>231</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>4-BIT Simulation</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>300</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ACCUMULATOR</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="clockbutton">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>329</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CLOCK++</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="currentInstructionBox">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>251</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="currentInstructionName">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>170</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="INPUTREG">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>171</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="OUTPUTREG">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>250</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>210</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Current Instruction Address</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>130</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Current Instruction Name</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="AccumulatorBox">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>330</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>140</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>INPUT REGISTER</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>219</y>
+        <width>131</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>OUTPUT REGISTER</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEdit">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>391</width>
+        <height>521</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="testbox">
+      <property name="geometry">
+       <rect>
+        <x>420</x>
+        <y>390</y>
+        <width>361</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="change_sim">
+      <property name="geometry">
+       <rect>
+        <x>1120</x>
+        <y>50</y>
+        <width>151</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Change Simulation</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>130</y>
+        <width>471</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>49</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+        <underline>false</underline>
+        <strikeout>false</strikeout>
+        <stylestrategy>PreferDefault</stylestrategy>
+        <kerning>true</kerning>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(0, 253, 255);
+</string>
+      </property>
+      <property name="text">
+       <string>LCD</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>50</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Data in (D)</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>1020</x>
+        <y>50</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Data Out (S)</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="DataOutField">
+      <property name="geometry">
+       <rect>
+        <x>1020</x>
+        <y>80</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="DatainFIeld">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>80</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>1</pointsize>
+       </font>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>50</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Address (A)</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="AddressField">
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>80</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpadB">
+      <property name="geometry">
+       <rect>
+        <x>1160</x>
+        <y>450</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>B</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad0">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>230</y>
+        <width>113</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad8">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>450</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad2">
+      <property name="geometry">
+       <rect>
+        <x>1040</x>
+        <y>230</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad4">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>340</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad7">
+      <property name="geometry">
+       <rect>
+        <x>1160</x>
+        <y>340</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>7</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad1">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>230</y>
+        <width>113</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad6">
+      <property name="geometry">
+       <rect>
+        <x>1040</x>
+        <y>340</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad3">
+      <property name="geometry">
+       <rect>
+        <x>1160</x>
+        <y>230</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad5">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>340</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>5</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpad9">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>450</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>9</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="numpadA">
+      <property name="geometry">
+       <rect>
+        <x>1040</x>
+        <y>450</y>
+        <width>113</width>
+        <height>90</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>A</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>20</y>
+        <width>301</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Impact</family>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>RAM STATS</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_3">
+     <widget class="QPushButton" name="change_sim_2">
+      <property name="geometry">
+       <rect>
+        <x>1120</x>
+        <y>50</y>
+        <width>151</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Change Simulation</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1294</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
