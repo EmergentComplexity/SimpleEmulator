@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ramwindow.h"
 #include <QTimer>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -8,21 +10,22 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->clockbutton, SIGNAL(clicked()), this, SLOT(CLOCKButtonPressed()));
     ui->currentInstructionBox->setText( QString::number(currentCount));
-
     connect(timer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::AutoClock));
     connect(ui->ClockStart, SIGNAL(clicked()), this, SLOT(ClockStart()));
     connect(ui->ClockStop, SIGNAL(clicked()), this, SLOT(ClockStop()));
-    //timer->start(1000);
     InstructionDecoder();
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
 void MainWindow::ClockStart() {
     int freq = (1.00/ui->ClockEdit->text().toFloat() ) * (float)1000;
-    ui->currentInstructionBox->setText( QString::number(freq));
+    ui->currentInstructionBox->setText( QString::number(currentCount));
     timer->start(freq);
 
 }
@@ -52,6 +55,9 @@ void MainWindow::AutoClock() {
     // TODO: add label that says to open a file if there is no rom loaded
 
 }
+
+
+
 void MainWindow::CLOCKButtonPressed() {
     if(ROMLoaded == true) { // you can only run the code after the ROM is Loaded
 
@@ -68,11 +74,11 @@ void MainWindow::CLOCKButtonPressed() {
         else if( currentCount > -1) { // -1 is used to initialize, but there is no -1 index of the ROM array
             ui->currentInstructionBox->setText( QString::number(currentCount));
             //ui->currentInstructionBox->setText( QString::number(Ram[7]));
+
             InstructionDecoder();
         }
 
     }
-    // TODO: add label that says to open a file if there is no rom loaded
 
 
 }
@@ -81,9 +87,14 @@ void MainWindow::InstructionDecoder() {
     if (current != NULL) {
     opcode = current->Values[currentCount] >> 4;
     data = current->Values[currentCount] & 0b00001111;
+
+   if ( (current->Values[currentCount - 1] >> 4) == 0b0000) {
+        printstr = " Hello";  // clear string after HLT
+   }
     switch(opcode) {
         case 0b0000: { // HLT: This effectively stops the clock
             ui->currentInstructionName->setText( "HLT");
+
             if (current->next != NULL) {
                 currentCount = -1;
                 current = current->next;
@@ -101,7 +112,7 @@ void MainWindow::InstructionDecoder() {
             break;
         }
 
-        case 0b0010: { // SUB: This subttracts whatever is in the specified RAM address from whatever is in the accumulator
+        case 0b0010: { // SUB: This subtracts whatever is in the specified RAM address from whatever is in the accumulator
             ui->currentInstructionName->setText( "SUB");
             accumulator = accumulator - Ram[data];
             break;
@@ -189,8 +200,9 @@ void MainWindow::InstructionDecoder() {
         }
     }
     }
+    printstr = printstr  + ui->currentInstructionName->text() + " " + QString("%1").arg(data, 8, 2, QChar('0')) +  "\n";
+    ui->testbox->setText(printstr);
 }
-
 
 
 
@@ -213,6 +225,11 @@ void MainWindow::InstructionDecoder() {
 // THe 4 least significant bits represent the DATA EX: 0000, 0001, etc..
 //  - this gives data, it could be an address, constant, or unused depending on the instruction
 
+
+
+
+
+
 void MainWindow::on_actionOpen_triggered()
 {
       //Ram [16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; // clear the ram
@@ -224,7 +241,7 @@ void MainWindow::on_actionOpen_triggered()
         }
         setWindowTitle(filename);
         QTextStream in(&file);
-        int i = 0;
+       // int i = 0;
         int j = 0;
 
         while(!in.atEnd())
@@ -247,7 +264,7 @@ void MainWindow::on_actionOpen_triggered()
 
 
                 if ((mnemonics[j] == "HLT")) {
-                    i = j;
+                  //  i = j;
                     j = 0;
                     AppendROM( &head, ROM);
 
@@ -255,22 +272,13 @@ void MainWindow::on_actionOpen_triggered()
                     for(int i = 0; i < 16; i++) {
                         ROM[i] = 0;
                     }
+
                 }
                 else {
+
                     j++;
                 }
             }
-
-
-            // test code to print out the name of the mneumonic of every instruction
-            QString printstr;
-            for (int x=0; x < i; x++) {
-               printstr = printstr  + mnemonics[x] + " " + QString("%1").arg(ROM[x], 8, 2, QChar('0')) +  "\n";
-               // printstr = printstr  + mnemonics[x] + " " + QString::number(ROM[x]) +  "\n";
-            }
-            ui->testbox->setText( mnemonics[j - 1] + " " + QString::number(j));
-
-
 
        }
 
@@ -293,6 +301,9 @@ void MainWindow::on_actionOpen_triggered()
         ui->textEdit->setText((text));
 
 }
+
+
+
 
 void MainWindow::InstructionEncoder(QString mnemonic, QString data, int* ROM) {
     if (mnemonic == "HLT") {
@@ -357,6 +368,55 @@ void MainWindow::InstructionEncoder(QString mnemonic, QString data, int* ROM) {
     *ROM =   *ROM | dataINT;
 }
 
+void MainWindow::on_button_4bit_clicked()
+{
+
+    // clear ram
+    for(int i = 0; i < 16; i++) {
+        Ram[i] = 0;
+    }
+
+    // clear list
+    while (current != NULL)
+      {
+          ROMS *next = current->next;
+          free(current);
+          current = next;
+      }
+
+      head = NULL;
+      // reset values
+      printstr.clear();
+      timer->stop();
+      ui->textEdit->clear();
+      ui->AccumulatorBox->clear();
+      ui->AddressField->clear();
+      ui->INPUTREG->clear();
+      ui->OUTPUTREG->clear();
+      ui->testbox->clear();
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+
+void MainWindow::on_button_8bit_clicked()
+{
+    //
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+
+void MainWindow::on_change_sim_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_change_sim_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
 void MainWindow::AppendROM( ROMS ** NodeHead, int ROM[16]) {
     ROMS* new_rom = new ROMS();
     ROMS* last = *NodeHead;
@@ -375,6 +435,3 @@ void MainWindow::AppendROM( ROMS ** NodeHead, int ROM[16]) {
     last->next = new_rom;
     return;
 }
-
-
-

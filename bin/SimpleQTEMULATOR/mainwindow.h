@@ -5,6 +5,8 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QLabel>
+#include <QFont>
 #include <QTimer>
 
 #include <QMainWindow>
@@ -30,7 +32,6 @@ private:
     int accumulator = 0;
     int ROM [16];
     QTimer *timer = new QTimer(this);
-
     class ROMS {
     public:
         int Values [16];
@@ -47,17 +48,23 @@ private:
     void AppendROM( ROMS ** NodeHead, int ROM[16]);
     void InstructionEncoder( QString mnemonic, QString data, int *ROM);
     QString mnemonics [16]; //assumes max program length of 16 instructions, contains the mneumonic
-
+   QString printstr;// to print rom data
 
     QString currentFile = "";   //lets us open files
 private slots: // executed when signal is submitted
     void CLOCKButtonPressed();
+    void on_actionOpen_triggered();
+    void on_button_4bit_clicked();
+    void on_button_8bit_clicked();
+    void on_change_sim_clicked();
+    void on_change_sim_2_clicked();
     void AutoClock();
     void ClockStart();
     void ClockStop();
-    void on_actionOpen_triggered();
+    /*
+    void on_actionRAM_triggered();
+    void on_actionLCD_triggered();
+    void on_actionNUM_PAD_triggered();
+    */
 };
 #endif // MAINWINDOW_H
-
-
-
