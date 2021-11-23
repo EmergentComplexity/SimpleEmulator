@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ramwindow.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -10,12 +10,33 @@ MainWindow::MainWindow(QWidget *parent)
     ui->currentInstructionBox->setText( QString::number(currentCount));
     InstructionDecoder();
     ui->stackedWidget->setCurrentIndex(0);
+    ui->INPUTREG->setText(QString::number(input)); //keypad
+    QPushButton *numButtons[12]; //keypad
+    for(int i=0; i < 12; i++){ //keypad
+        QString butName = "Button" + QString::number(i); //keypad
+        numButtons[i] = MainWindow::findChild<QPushButton *>(butName); //keypad
+        connect((numButtons[i]), SIGNAL(released()), this, SLOT(NumPressed())); //keypad
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::NumPressed(){
+    QPushButton *button = (QPushButton *)sender();
+    QString butval = button->text();
+    QString displayval = ui->INPUTREG->text();
+    if((displayval.toDouble() == 0 || (displayval.toDouble() == 0.0))){
+        ui->INPUTREG->setText(butval);
+    }else{
+        QString newVal = displayval + butval;
+        double dblNewval = newVal.toDouble();
+        ui->INPUTREG->setText(QString::number(dblNewval, 'g', 16));
+    }
+}
+
 
 void MainWindow::CLOCKButtonPressed() {
     if(ROMLoaded == true) { // you can only run the code after the ROM is Loaded
@@ -300,4 +321,5 @@ void MainWindow::on_change_sim_2_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
+
 

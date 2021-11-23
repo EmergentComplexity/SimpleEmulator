@@ -153,6 +153,9 @@
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
+      <property name="readOnly">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QLineEdit" name="OUTPUTREG">
       <property name="geometry">
@@ -403,7 +406,7 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpadB">
+     <widget class="QPushButton" name="Button11">
       <property name="geometry">
        <rect>
         <x>1160</x>
@@ -416,23 +419,7 @@
        <string>B</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad0">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>800</x>
-        <y>230</y>
-        <width>113</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="numpad8">
+     <widget class="QPushButton" name="Button8">
       <property name="geometry">
        <rect>
         <x>800</x>
@@ -445,7 +432,7 @@
        <string>8</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad2">
+     <widget class="QPushButton" name="Button2">
       <property name="geometry">
        <rect>
         <x>1040</x>
@@ -458,7 +445,7 @@
        <string>2</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad4">
+     <widget class="QPushButton" name="Button4">
       <property name="geometry">
        <rect>
         <x>800</x>
@@ -471,7 +458,7 @@
        <string>4</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad7">
+     <widget class="QPushButton" name="Button7">
       <property name="geometry">
        <rect>
         <x>1160</x>
@@ -484,7 +471,7 @@
        <string>7</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad1">
+     <widget class="QPushButton" name="Button1">
       <property name="geometry">
        <rect>
         <x>920</x>
@@ -497,7 +484,7 @@
        <string>1</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad6">
+     <widget class="QPushButton" name="Button6">
       <property name="geometry">
        <rect>
         <x>1040</x>
@@ -510,7 +497,7 @@
        <string>6</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad3">
+     <widget class="QPushButton" name="Button3">
       <property name="geometry">
        <rect>
         <x>1160</x>
@@ -523,7 +510,7 @@
        <string>3</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad5">
+     <widget class="QPushButton" name="Button5">
       <property name="geometry">
        <rect>
         <x>920</x>
@@ -536,7 +523,7 @@
        <string>5</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpad9">
+     <widget class="QPushButton" name="Button9">
       <property name="geometry">
        <rect>
         <x>920</x>
@@ -549,7 +536,7 @@
        <string>9</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="numpadA">
+     <widget class="QPushButton" name="Button10">
       <property name="geometry">
        <rect>
         <x>1040</x>
@@ -582,6 +569,19 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Button0">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>230</y>
+        <width>113</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
       </property>
      </widget>
     </widget>
