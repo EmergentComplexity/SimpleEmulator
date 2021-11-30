@@ -15,8 +15,10 @@ SOURCES += \
     components/alu.cpp \
     components/counter.cpp \
     components/decoder.cpp \
+    components/lcd.cpp \
     components/ram.cpp \
     components/register.cpp \
+    components/shiftreg.cpp \
     components/srlatch.cpp \
     main.cpp \
     mainwindow.cpp
@@ -25,8 +27,10 @@ HEADERS += \
     components/alu.h \
     components/counter.h \
     components/decoder.h \
+    components/lcd.h \
     components/ram.h \
     components/register.h \
+    components/shiftreg.h \
     components/srlatch.h \
     mainwindow.h
 

@@ -139,6 +139,10 @@ void MainWindow::InstructionDecoder() {
         case 0b1001: { // OUT: write the accumulator to the output register, This is simulated with a QLineEdit to write data to. In hardware, the output register would be connected to output periphrials which would have to be emulated here as well
             ui->currentInstructionName->setText( "OUT");
             ui->OUTPUTREG->setText(QString::number(accumulator));
+            lcdShiftReg.update( ((accumulator & 0b1000) >> 3), ((accumulator & 0b0100) >> 2), ((accumulator & 0b0010) >> 1), (accumulator & 0b0001));
+            ui->ShiftOutEdit->setText(QString("%1").arg(lcdShiftReg.getShiftOut(), 10, 2, QChar('0')) ); // show the output
+            mainDisplay.update(((lcdShiftReg.getShiftOut() & 0b1000000000) >> 9), ((lcdShiftReg.getShiftOut() & 0b0100000000) >> 8), (lcdShiftReg.getShiftOut() & 0b0011111111));
+            ui->LCDEdit->setText(mainDisplay.getLCDVal());
             break;
         }
 

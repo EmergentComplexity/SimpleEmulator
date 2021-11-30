@@ -16,6 +16,9 @@
 #include <components/ram.h>
 #include <components/decoder.h>
 #include <components/register.h>
+#include <components/lcd.h>
+
+#include <components/shiftreg.h> // used for LCD
 
 #include <QMainWindow>
 
@@ -91,6 +94,8 @@ private:
     Register Accumulator;
     Register ALU_Register;
     Register OUT_Register;
+    shiftreg lcdShiftReg;
+    lcd mainDisplay;
     void ShowDecoder(); // shows the output of the decoder on the main window
     int ALUEncoder(); // takes the values from the instruction decoder and re-encodes them to match the instructions for the alu hardware
     int clk = 0;
@@ -127,6 +132,9 @@ private slots: // executed when signal is submitted
     void InstructionDecoder8B();
     void AppendROM8B( ROMS8Bit ** NodeHead, int ROM[256]);
     void InstructionEncoder8( QString mnemonic, QString data, int *ROM);
+
+
+
 
     /*
     void on_actionRAM_triggered();
