@@ -38,7 +38,7 @@ private:
     Ui::MainWindow *ui;
     int currentCount = 0;
     int output = 0; // Output Register
-    int input = 0;  // Input Register
+    double input = 0.0;  // Input Register
     int opcode;
     int accumulator = 0;
     int ROM [16];
@@ -104,6 +104,7 @@ private:
     QString currentFile = "";   //lets us open files
 private slots: // executed when signal is submitted
 
+    void NumPressed(); //keypad
     void on_actionOpen_triggered();
     void on_button_4bit_clicked();
     void on_button_4bit_LowLevel_clicked();
@@ -142,5 +143,7 @@ private slots: // executed when signal is submitted
     void on_actionNUM_PAD_triggered();
     */
     void on_change_sim_5_clicked();
+    void on_pushButton_clicked();
+    void on_RSim_clicked();
 };
 #endif // MAINWINDOW_H

@@ -11,7 +11,6 @@ CONFIG += c++11
 SOURCES += \
     4_Bit_High_Level.cpp \
     4_Bit_Low_Level.cpp \
-    8_Bit_High_Level.cpp \
     components/alu.cpp \
     components/counter.cpp \
     components/decoder.cpp \

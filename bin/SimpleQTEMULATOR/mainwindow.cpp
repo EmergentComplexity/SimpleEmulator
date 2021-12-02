@@ -22,11 +22,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ClockStop_2, SIGNAL(clicked()), this, SLOT(ClockStop2()));
 
     // 8 Bit emu clk
-    connect(timer3, &QTimer::timeout, this, QOverload<>::of(&MainWindow::AutoClock8B));
-    connect(ui->ClockStart8, SIGNAL(clicked()), this, SLOT(ClockStart8B()));
-    connect(ui->ClockStop8, SIGNAL(clicked()), this, SLOT(ClockStop8B()));
+    //connect(timer3, &QTimer::timeout, this, QOverload<>::of(&MainWindow::AutoClock8B));
+    //connect(ui->ClockStart8, SIGNAL(clicked()), this, SLOT(ClockStart8B()));
+    //connect(ui->ClockStop8, SIGNAL(clicked()), this, SLOT(ClockStop8B()));
+    //connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushedButton_clicked()));
     InstructionDecoder();
     ui->stackedWidget->setCurrentIndex(0);
+    ui->INPUTREG->setText(QString::number(input)); //keypad
+    QPushButton *numButtons[12]; //keypad
+    for(int i=0; i < 12; i++){ //keypad
+        QString butName = "numpad" + QString::number(i); //keypad
+        numButtons[i] = MainWindow::findChild<QPushButton *>(butName); //keypad
+        connect((numButtons[i]), SIGNAL(released()), this, SLOT(NumPressed())); //keypad
+    }
 }
 
 MainWindow::~MainWindow()
@@ -34,6 +42,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::NumPressed(){
+    QPushButton *button = (QPushButton *)sender();
+    QString butval = button->text();
+    QString displayval = ui->INPUTREG->text();
+    if((displayval.toDouble() == 0 || (displayval.toDouble() == 0.0))){
+        ui->INPUTREG->setText(butval);
+    }else{
+        QString newVal = displayval + butval;
+        double dblNewval = newVal.toDouble();
+        ui->INPUTREG->setText(QString::number(dblNewval, 'g', 16));
+    }
+}
 
 // When a file is opened
 void MainWindow::on_actionOpen_triggered() {
@@ -44,6 +64,34 @@ void MainWindow::on_actionOpen_triggered() {
         if(!file.open(QIODevice::ReadOnly | QFile::Text)){                                             //if we can get the lines, tested good
             QMessageBox::warning(this, "Warning", "Cannot open file : " + file.errorString());
         }
+        // clear ram
+        for(int i = 0; i < 16; i++) {
+            Ram[i] = 0;
+        }
+
+        // clear list
+        while (current != NULL)
+          {
+              ROMS *next = current->next;
+              free(current);
+              current = next;
+          }
+
+          head = NULL;
+          // reset values
+          printstr.clear();
+          timer->stop();
+          ui->LCDEdit->clear();
+          ui->ShiftOutEdit->clear();
+          lcdShiftReg.update(0,0,0,1);
+          ui->currentInstructionBox->clear();
+          ui->currentInstructionName->clear();
+          ui->textEdit->clear();
+          ui->AccumulatorBox->clear();
+          ui->INPUTREG->setText("0");
+          ui->OUTPUTREG->clear();
+          ui->testbox->clear();
+          mainDisplay.lcdclear();
         setWindowTitle(filename);
         QTextStream in(&file);
         int j = 0;
@@ -155,12 +203,12 @@ void MainWindow::on_actionOpen_triggered() {
                 // here we are going to interpret the file and write appropriate data to rom
                 QStringList list = line.split(" ");
                 mnemonics[j] = list.at(0); // this is a QString array with all of the mneumonics for the instructions
-                InstructionEncoder8(mnemonics[j], list.at(1), &ROM[j]);
+                //InstructionEncoder8(mnemonics[j], list.at(1), &ROM[j]);
                 ROMLoaded = true; // now we can run the program because the rom has been loaded
                 currentCount = -1; // reset to do the first instruction
                 if ((mnemonics[j] == "HLT")) {
                     j = 0;
-                    AppendROM8B( &head8, ROM);
+                    //AppendROM8B( &head8, ROM);
 
                     // now clear rom array
                     for(int i = 0; i < 256; i++) {
@@ -175,7 +223,7 @@ void MainWindow::on_actionOpen_triggered() {
 
         // if there was no HLT in the program file, still add the file to the list
         if ((mnemonics[j-1] != "HLT")) {
-            AppendROM8B( &head8, ROM);
+            //AppendROM8B( &head8, ROM);
             // now clear rom array
             for(int i = 0; i < 256; i++) {
                 ROM[i] = 0;
@@ -183,13 +231,12 @@ void MainWindow::on_actionOpen_triggered() {
         }
         current8 = head8;
         file.seek(0);
-        QString text = in.readAll();
-        ui->textEdit8->setText((text));
+        //QString text = in.readAll();
+        //ui->textEdit8->setText((text));
     }
 
 
 }
-
 
 
 
@@ -214,12 +261,19 @@ void MainWindow::on_button_4bit_clicked()
       // reset values
       printstr.clear();
       timer->stop();
+      ui->LCDEdit->clear();
+      ui->ShiftOutEdit->clear();
+      lcdShiftReg.update(0,0,0,1);
+      ui->currentInstructionBox->clear();
+      ui->currentInstructionName->clear();
       ui->textEdit->clear();
       ui->AccumulatorBox->clear();
-      ui->AddressField->clear();
-      ui->INPUTREG->clear();
+      ui->INPUTREG->setText("0");
       ui->OUTPUTREG->clear();
       ui->testbox->clear();
+      mainDisplay.lcdclear();
+      ui->ClockEdit->setText("1000");
+
       isHL4 = true;
     ui->stackedWidget->setCurrentIndex(1);
 }
@@ -247,10 +301,6 @@ void MainWindow::on_button_8bit_clicked()
 }
 
 
-
-
-
-
 // go back to the home page
 void MainWindow::on_change_sim_clicked() {
     isHL4 = false;
@@ -273,5 +323,43 @@ void MainWindow::on_change_sim_5_clicked() {
     isLL4 = false;
     isHL8 = false;
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_RSim_clicked()
+{
+    // clear ram
+    for(int i = 0; i < 16; i++) {
+        Ram[i] = 0;
+    }
+
+    // clear list
+    while (current != NULL)
+      {
+          ROMS *next = current->next;
+          free(current);
+          current = next;
+      }
+
+      head = NULL;
+      // reset values
+      printstr.clear();
+      timer->stop();
+      ui->LCDEdit->clear();
+      ui->ShiftOutEdit->clear();
+      lcdShiftReg.update(0,0,0,1);
+      ui->currentInstructionBox->clear();
+      ui->currentInstructionBox->setText("0");
+      ui->currentInstructionName->clear();
+      ui->currentInstructionName->setText("0");
+      ui->textEdit->clear();
+      ui->AccumulatorBox->clear();
+      ui->INPUTREG->setText("0");
+      ui->OUTPUTREG->clear();
+      ui->testbox->clear();
+      mainDisplay.lcdclear();
+      ui->stackedWidget->setCurrentIndex(1);
+
+      isHL4 = true;
 }
 

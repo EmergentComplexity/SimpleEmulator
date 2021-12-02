@@ -21,3 +21,6 @@ void lcd::update(bool RS, bool EN, int data) {
 QString lcd::getLCDVal() {
     return lcdOut;
 }
+void lcd::lcdclear(){
+    lcdOut.clear();
+}

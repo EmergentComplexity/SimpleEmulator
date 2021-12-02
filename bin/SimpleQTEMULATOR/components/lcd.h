@@ -10,6 +10,8 @@ public:
     lcd();
     void update(bool RS, bool EN, int data);
     QString getLCDVal();
+    void lcdclear();
 };
+
 
 #endif // LCD_H
